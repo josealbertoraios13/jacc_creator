@@ -1,8 +1,8 @@
-# c/cpp-creator
+# JACC-CREATOR
 
 This shell script for Linux allows you to create pre-configured projects for the C/C++ language and the CMake project compiler.
 
-## reason
+## Reason
 
 Created by me because I was tired of having to create folders and files to configure a C/C++ project. Yes, I know there are IDEs that solve this problem, but I wanted to do it anyway, haha.
 
@@ -10,15 +10,15 @@ Created by me because I was tired of having to create folders and files to confi
 
 1- SSH:
 ```bash
-git clone git@github.com:josealbertoraios13/cpp-creator.git
-cd cpp-creator
+git clone git@github.com:josealbertoraios13/jacc_creator.git
+cd jacc_creator
 ```
 or
 
 1- HTTPS:
 ```bash
-git clone https://github.com/josealbertoraios13/c-cpp_creator.git
-cd c-cpp_creator
+git clone https://github.com/josealbertoraios13/jacc_creator.git
+cd jacc_creator
 ```
 
 2- Make the installation script executable:
@@ -31,18 +31,17 @@ chmod x+ install.sh
 ```
 4- Confirm installation:
 ```bash
-alcc --version
+jacc --version
 ```
-
 ## Examples
 
 1- Get all available commands with:
 ```bash
-alcc --help
+jacc --help
 ```
 2- Base project example:
 ```bash
-alcc create base your_project (name)
+jacc create <language('c' or 'cpp')> <Project_type> <project_name Optional>
 ```
 3- Project base file tree
 ```bash
@@ -63,7 +62,7 @@ alcc create base your_project (name)
 │   │   ├── CMakeScratch
 │   │   ├── Makefile2
 │   │   ├── Makefile.cmake
-│   │   ├── your_project.dir
+│   │   ├── project_name.dir
 │   │   │   ├── build.make
 │   │   │   ├── cmake_clean.cmake
 │   │   │   ├── compiler_depend.make
@@ -90,8 +89,9 @@ alcc create base your_project (name)
 
 1- To uninstall use:
 ```bash
-alcc uninstall
+jacc uninstall
 
 ```
+
 
 
