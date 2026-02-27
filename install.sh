@@ -7,7 +7,7 @@ set -e
 # WARNING: DO NOT CHANGE THE INSTALLATION PATHS BELOW UNLESS YOU KNOW EXACTLY WHAT YOU ARE DOING.
 # MODIFYING THESE VALUES INCORRECTLY MAY DELETE UNINTENDED FILES OR DIRECTORIES
 # AND MAY CAUSE THE PROGRAM TO STOP WORKING PROPERLY OR BREAK COMPLETELY
-INSTALL_DIR="$HOME/cpp_creator"
+INSTALL_DIR="$HOME/jacc_creator"
 BIN_DIR="$HOME/.local/bin"
 
 # creates a directory where will be installed this program
@@ -15,13 +15,13 @@ mkdir -p "$INSTALL_DIR"
 cp -r ./* "$INSTALL_DIR"
 
 # Allows this file to be executed.
-chmod +x "$INSTALL_DIR/alcpp.sh"
+chmod +x "$INSTALL_DIR/jacc.sh"
 
 mkdir -p "$BIN_DIR"
 
-# Create a symbolic link so 'alcpp' can be run as a global command
+# Create a symbolic link so 'jacc' can be run as a global command
 # -s: symbolic, -f: force overwrite if exists
-ln -sfv "$INSTALL_DIR/alcpp.sh" "$BIN_DIR/alcpp"
+ln -sfv "$INSTALL_DIR/jacc.sh" "$BIN_DIR/jacc"
 
 # Detect the active shell to determine the correct configuration file
 case "$(basename "$SHELL")" in
@@ -48,10 +48,10 @@ if ! grep -q "$BIN_DIR" "$RC"; then
 fi
 
 # Check if the installation was successful.
-if [ -e "$BIN_DIR/alcpp" ]; then
+if [ -e "$BIN_DIR/jacc" ]; then
     echo -e "Installation completed successfully."
     echo "Restart your terminal or use: 'source $RC'"
-    echo "Use alcpp --help to view the available commands."
+    echo "Use jacc --help to view the available commands."
 else
     echo "The installation failed."
     exit 1
