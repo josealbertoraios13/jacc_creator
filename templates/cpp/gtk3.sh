@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-echo "Do you want install gcc and cmake? (y/n): "
+echo "Do you want install gcc, cmake and Pkg-Config? (y/n): "
 read answer
 
 if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
