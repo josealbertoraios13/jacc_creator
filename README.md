@@ -10,7 +10,7 @@ Created by me because I was tired of having to create folders and files to confi
 
 1- SSH:
 ```bash
-git clone git@github.com:josealbertoraios13/jacc-creator.git
+git clone git@github.com:josealbertoraios13/jacc_creator.git
 cd jacc-creator
 ```
 or
@@ -93,6 +93,7 @@ jacc create 'c' or 'cpp' base project_name
 jacc uninstall
 
 ```
+
 
 
 
