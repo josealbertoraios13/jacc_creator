@@ -1,0 +1,114 @@
+#!/bin/sh
+
+set -e
+
+echo "Do you want install gcc, cmake and Pkg-Config? (y/n): "
+read answer
+
+if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+    sudo apt update
+    sudo apt install -y build-essential cmake pkg-config
+else
+    echo "Skipped installation."
+fi
+
+echo "Do you want to install the ncurses libraries for c/cpp? (y/n): "
+read answer
+
+if [ "$answer" = "y" ] || [ "$answer" = "Y" ]; then
+    sudo apt update
+    sudo apt install -y libncurses-dev
+else
+    echo "Skipped ncurses installation."
+fi
+
+mkdir -p src include build
+
+cat << EOF > src/main.c
+#include <ncurses.h>
+
+const int HEIGHT = 10;
+const int WIDTH = 30; 
+
+WINDOW *m_win;
+
+WINDOW* create_win(int height, int width, int start_x, int start_y){
+    WINDOW *local_win;
+
+    local_win = newwin(height, width, start_y, start_x);
+    box(local_win, 0, 0);
+
+    const int TXT_POS_X = 4;
+    const int TXT_POS_Y = 8;
+
+    mvwprintw(local_win, TXT_POS_X, TXT_POS_Y, "Hello, World!");
+
+    wrefresh(local_win);
+
+    return local_win;
+}
+
+int main(int argc,  char *argv[]){
+    // Initialize the ncurses library
+    initscr();            
+
+    const int START_X = (COLS - WIDTH) / 2;
+    const int START_Y = (LINES - HEIGHT) / 2;
+    
+    // Optional input/output settings
+    raw();                // Disable line buffering (pick up keystrokes instantly).
+    keypad(stdscr, TRUE); // Enables special keys (F1, arrow keys, etc.)
+    noecho();             // It does not display what the user types on the screen.
+    curs_set(0);
+
+        // Text rendering
+    // printw works like printf, but for ncurses.
+    printw("Press any key to exit...");
+    
+    // Update the physical screen to show what's in the buffer.
+    refresh();   
+
+    m_win = create_win(HEIGHT, WIDTH, START_X, START_Y);
+
+    // Waiting for user input.
+    getch();              
+
+    delwin(m_win);
+
+    // Exit ncurses mode and restore the terminal.
+    return endwin();    
+}
+EOF
+
+project_name="my_project"
+
+if [ -n "$1" ]; then
+    project_name="$1"
+fi
+
+cat << EOF > CMakeLists.txt
+cmake_minimum_required(VERSION 3.16)
+project(${project_name} LANGUAGES C)
+
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+find_package(PkgConfig REQUIRED)
+
+pkg_check_modules(NCURSES REQUIRED ncurses)
+
+add_executable(${project_name} src/main.c)
+
+target_include_directories(${project_name} PRIVATE \${CMAKE_SOURCE_DIR}/include)
+
+target_include_directories(${project_name} PRIVATE \${NCURSES_INCLUDE_DIRS})
+target_link_libraries(${project_name} PRIVATE \${NCURSES_LIBRARIES})
+EOF
+
+echo "Create $project_name c"
+
+cmake -S . -B build
+cmake --build build
+
+git init
